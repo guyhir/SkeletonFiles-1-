@@ -4,12 +4,13 @@
 
 using std::vector;
 class Agent;
+class Coalition;
 
 class JoinPolicy
  {
     public:
             JoinPolicy();
-            virtual Agent join(vector<Agent> agentOffers);
+            virtual Coalition join(vector<Coalition> CoalitionOffers);
 
 
 
@@ -19,12 +20,12 @@ class JoinPolicy
 class MandatesJoinPolicy : public JoinPolicy 
 {
     public:
-        Agent join(vector<Agent> agentOffers);
+        Coalition join(vector<Coalition> coalitionOffers);
 };
 
 class LastOfferJoinPolicy : public JoinPolicy
  { 
      public:
-              Agent join(vector<Agent> agentOffers);
+             Coalition join(vector<Coalition> coalitionOffers);
 
  };
