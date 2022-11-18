@@ -7,6 +7,7 @@ using std::vector;
 class JoinPolicy;
 class Simulation;
 class Agent;
+class Coalition;
 
 enum State
 {
@@ -25,6 +26,7 @@ public:
     State getState() const;
     void setState(State state);
     int getMandates() const;
+    int getId() const;
     void step(Simulation &s);
     const string &getName() const;
 
@@ -35,5 +37,5 @@ private:
     JoinPolicy *mJoinPolicy;
     State mState;
     int timer;
-    vector<Agent> offers;
+    vector<Coalition> offers;
 };

@@ -1,5 +1,6 @@
 #include "Graph.h"
 
+
 Graph::Graph(vector<Party> vertices, vector<vector<int>> edges) : mVertices(vertices), mEdges(edges) 
 {
     // You can change the implementation of the constructor, but not the signature!
@@ -23,4 +24,13 @@ int Graph::getNumVertices() const
 const Party &Graph::getParty(int partyId) const
 {
     return mVertices[partyId];
+}
+
+const vector<Party> Graph::getNeighborsOf(int partyId){
+    vector<Party> neighbors;
+    for (int i: mEdges[partyId]){
+        if (getEdgeWeight(partyId,i)>0)
+            neighbors.push_back(getParty(i));
+    }
+    return neighbors;
 }
