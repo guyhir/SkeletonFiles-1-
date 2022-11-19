@@ -11,9 +11,6 @@ class JoinPolicy
     public:
             JoinPolicy();
             virtual Coalition join(vector<Coalition> CoalitionOffers);
-
-
-
  };
 
 

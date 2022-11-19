@@ -21,7 +21,9 @@ class Party
 public:
     Party(int id, string name, int mandates, JoinPolicy *); 
     Party(const Party &aparty);
+    Party( Party &&aparty);
     Party & operator=(const Party &aparty);
+    Party & operator=( Party &&aparty);
     virtual ~Party();
     State getState() const;
     void setState(State state);
@@ -29,6 +31,7 @@ public:
     int getId() const;
     void step(Simulation &s);
     const string &getName() const;
+    void AddOffer(Coalition c);
 
 private:
     int mId;

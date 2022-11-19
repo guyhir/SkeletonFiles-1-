@@ -1,5 +1,4 @@
 #pragma once
-
 #include <vector>
 #include "Graph.h"
 #include "Coalition.h"
@@ -12,20 +11,23 @@ class Agent
 public:
     Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy);
     Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy, int myCoalitionId);
-
-
+    Agent(const Agent &other);
+    Agent(Agent &&other);
+    Agent& operator= (const Agent& other);
+    virtual ~Agent();
     int getPartyId() const;
     int getMandates() const;
     int getId() const;
     void step(Simulation &);
     SelectionPolicy *getSelectionPolicy();
+    Agent& operator=(Agent &&other);
 
 
 private:
     int mAgentId;
     int mPartyId;
     SelectionPolicy *mSelectionPolicy;
-    int myCoalitionId;
+    int mCoalitionId;
     vector<Party> partyOptions;
     bool isActive;
     void updateOptions(Simulation &sim);
