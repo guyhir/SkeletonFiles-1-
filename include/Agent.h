@@ -16,7 +16,6 @@ public:
     Agent& operator= (const Agent& other);
     virtual ~Agent();
     int getPartyId() const;
-    int getMandates() const;
     int getId() const;
     void step(Simulation &);
     SelectionPolicy *getSelectionPolicy();

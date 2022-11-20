@@ -32,7 +32,7 @@ public:
     int getId() const;
     void step(Simulation &s);
     const string &getName() const;
-    void AddOffer(Coalition c);
+    void AddOffer(Coalition &c);
 
 private:
     int mId;
@@ -41,5 +41,7 @@ private:
     JoinPolicy *mJoinPolicy;
     State mState;
     int timer;
-    vector<Coalition> offers;
+    vector<Coalition*> offers;
+    //daniel - does coalition here needs to be refrecne or pointer or object? 
+    //daniel- when we makes it refrence it give us alot of errors!
 };

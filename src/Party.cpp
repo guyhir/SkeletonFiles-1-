@@ -9,64 +9,60 @@ Party::Party(int id, string name, int mandates, JoinPolicy *jp) : mId(id), mName
     // You can change the implementation of the constructor, but not the signature!
     //maybe we need to initate offers
 }    
+
 Party::Party()
 {
-    
 }
+
 //copy constructor
- Party:: Party(const Party &aparty)
+ Party:: Party(const Party &other) : mId(other.mId),mName(other.mName),mMandates(other.mMandates),mState(other.mState),
+timer(other.timer),offers(other.offers)
  { 
-    mId= aparty.mId;
-     mName=aparty.mName;
-     mMandates=aparty.mMandates;
-     mJoinPolicy=new JoinPolicy (*(aparty.mJoinPolicy));
-     mState=aparty.mState;
-     timer=aparty.timer;
-     offers=aparty.offers;
+    mJoinPolicy=new JoinPolicy(*(other.mJoinPolicy));
+
  }
-  Party::~Party() //maybe we need to add virtual
+
+//destructor
+Party::~Party() //maybe we need to add virtual
 {
     if (mJoinPolicy) delete mJoinPolicy;
 }
 
- Party& Party:: operator=(const Party &aparty)
+//assignment operator
+ Party& Party:: operator=(const Party &other)
 {
-     mId= aparty.mId;
-     mName=aparty.mName;
-     mMandates=aparty.mMandates;
-     *mJoinPolicy=(*(aparty.mJoinPolicy));
-     mState=aparty.mState;
-     timer=aparty.timer;
-     offers=aparty.offers;
+     mId= other.mId;
+     mName=other.mName;
+     mMandates=other.mMandates;
+     *mJoinPolicy=(*(other.mJoinPolicy));
+     mState=other.mState;
+     timer=other.timer;
+     offers=other.offers;
 return *this;
 }
 
 //move constructor
-Party::Party(Party &&aparty) {
-  mId= aparty.mId;
-     mName=aparty.mName;
-     mMandates=aparty.mMandates;
-     mJoinPolicy=aparty.mJoinPolicy;
-     aparty.mJoinPolicy=nullptr;
-     mState=aparty.mState;
-     timer=aparty.timer;
-     offers=aparty.offers;
+Party::Party(Party &&other) : mId(other.mId), mName(other.mName),
+mMandates(other.mMandates),mJoinPolicy(other.mJoinPolicy),mState(other.mState),
+timer(other.timer),offers(other.offers)
+{
+    other.mJoinPolicy=nullptr;
+     
 }
 
 
 //move assignment operator
-Party& Party::operator=( Party &&aparty){
+Party& Party::operator=( Party &&other){
     if (mJoinPolicy)
         delete mJoinPolicy;
-
-     mId= aparty.mId;
-     mName=aparty.mName;
-     mMandates=aparty.mMandates;
-     mJoinPolicy=aparty.mJoinPolicy;
-     aparty.mJoinPolicy=nullptr;
-     mState=aparty.mState;
-     timer=aparty.timer;
-     offers=aparty.offers;
+     mId= other.mId;
+     mName=other.mName;
+     mMandates=other.mMandates;
+     mJoinPolicy=other.mJoinPolicy;
+     other.mJoinPolicy=nullptr;
+     mState=other.mState;
+     timer=other.timer;
+     offers=other.offers;
     return *this;
 }
 State Party::getState() const
@@ -102,6 +98,7 @@ void Party::step(Simulation &s)
             Coalition &c =(*mJoinPolicy).join(offers);
             c.addMandates(mMandates);
             Agent a = s.getAgents()[c.getId()]; //we only need information from this agent, we dont use it or change it otherwise
+           //daniel- is it ok to only take a copy of agent a? beacue getAgents() is Const
             s.cloneAgent(mId,a);
             setState(Joined);
         }
@@ -109,9 +106,9 @@ void Party::step(Simulation &s)
 
 }
 
-void Party:: AddOffer(Coalition c)
+void Party:: AddOffer(Coalition &c)
 {
-offers.push_back(c);
+offers.push_back(&c);
 
 }
 

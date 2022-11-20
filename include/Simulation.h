@@ -23,6 +23,8 @@ public:
     const vector<vector<int>> getPartiesByCoalitions() const;
     const Graph &getGraph() const;
     void cloneAgent(int partyId, Agent &a );
+
+    //daniel- when do we need to return a refrence in a function
     
 
 private:

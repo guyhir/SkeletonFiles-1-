@@ -3,10 +3,13 @@
 Simulation::Simulation(Graph graph, vector<Agent> agents) : mGraph(graph), mAgents(agents) 
 {
     // You can change the implementation of the constructor, but not the signature!
+
     for (int i=0; i<mAgents.size();i++){
-        Agent &aCurrent= mAgents[i];
-        Coalition currCoalition= Coalition(i,graph.getMandates(aCurrent.getPartyId()));
+       //daniel- is the assignent currect or making a copy?
+        Coalition currCoalition= Coalition(i,graph.getMandates(mAgents[i].getPartyId()));
         mCoalition.push_back(currCoalition);
+        //daniel- do we need to keep it in the stack or on the heap
+        //daniel -if we keep objects in the stack, does it gets deleted whrn the functions ends???
     }
 }
 
@@ -21,6 +24,17 @@ void Simulation::step()
 bool Simulation::shouldTerminate() const
 {
     // TODO implement this method
+    for(int i=0; i<mCoalition.size();i++)
+    {
+        if (mCoalition[i].getMandates()>60) return true;
+
+    }
+    for (int i=0; i<mGraph.getNumVertices();i++)
+
+    { //we need to refer to lonely parties
+        if(mGraph.getParty(i).getState()!=Joined)
+        return false;
+    }
     return true;
 }
 

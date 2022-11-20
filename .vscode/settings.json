@@ -3,11 +3,14 @@
         {
             "cwd": "/home/spl211/Desktop/newCheck/SkeletonFiles(1)/bin",
             "binaryPath": "/home/spl211/Desktop/newCheck/SkeletonFiles(1)/bin/cRace",
+            "binaryArgs": [
+                "../tests/01.json"
+            ]
+        },
+        {
+            "cwd": "/home/spl211/Desktop/newCheck/SkeletonFiles(1)/bin",
+            "binaryPath": "/home/spl211/Desktop/newCheck/SkeletonFiles(1)/bin/cRace",
             "binaryArgs": []
         }
-    ],
-    "files.associations": {
-        "fstream": "cpp",
-        "vector": "cpp"
-    }
+    ]
 }
