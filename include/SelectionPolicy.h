@@ -7,7 +7,7 @@ class SelectionPolicy {
 
     public:
             SelectionPolicy();
-            virtual Party select(vector<Party> partyOptions,Graph mGraph,int PartyId);
+            virtual Party& select(vector<Party> partyOptions,Graph mGraph,int PartyId);
 
 
 
@@ -16,10 +16,10 @@ class SelectionPolicy {
 
 class MandatesSelectionPolicy: public SelectionPolicy{ 
     public:
-             Party select(vector<Party> partyOptions,Graph mGraph,int PartyId);
+             Party &select(vector<Party> partyOptions,Graph mGraph,int PartyId);
 };
 
 class EdgeWeightSelectionPolicy: public SelectionPolicy{
      public:
-             Party select(vector<Party> partyOptions,Graph mGraph, int PartyId);
+             Party &select(vector<Party> partyOptions,Graph mGraph, int PartyId);
  };

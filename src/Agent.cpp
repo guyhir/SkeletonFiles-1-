@@ -6,11 +6,12 @@
 Agent::Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy) : mAgentId(agentId), mPartyId(partyId), mSelectionPolicy(selectionPolicy), mCoalitionId(agentId), isActive(true), partyOptions(0)
 {
     // You can change the implementation of the constructor, but not the signature!
-    
 }
-Agent :: Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy, int mCoalitionId): mAgentId(agentId), mPartyId(partyId), mSelectionPolicy(selectionPolicy), mCoalitionId(mCoalitionId), isActive(true)
+
+Agent::Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy, int mCoalitionId): mAgentId(agentId), mPartyId(partyId), mSelectionPolicy(selectionPolicy), mCoalitionId(mCoalitionId), isActive(true)
 { 
 }
+
 Agent::~Agent() //maybe we need to add virtual
 {
     if (mSelectionPolicy) delete mSelectionPolicy;
@@ -79,15 +80,14 @@ int Agent::getPartyId() const
     return mPartyId;
 }
 
-SelectionPolicy *Agent::getSelectionPolicy() 
+SelectionPolicy *Agent::getSelectionPolicy()
 {
     return mSelectionPolicy;
 }
 
 void Agent::step(Simulation &sim)
 {
-    // TODO: implement this method
-    if (isActive&partyOptions.size()==0) {
+    if (isActive&partyOptions.size()==0) { 
         Graph g = sim.getGraph();
         partyOptions = g.getNeighborsOf(mPartyId);
     }
@@ -95,14 +95,11 @@ void Agent::step(Simulation &sim)
         updateOptions(sim);
     if (isActive) {
         Party p = (*mSelectionPolicy).select(partyOptions,sim.getGraph(),mPartyId);
-        Coalition c = sim.getCoalition(mCoalitionId);
+        Coalition &c = sim.getCoalition(mCoalitionId);
         c.addOfferedParties(p.getId());
         p.setState(CollectingOffers);
         p.AddOffer(c);
     }
-
-
-
 }
 
 

@@ -4,17 +4,16 @@
 #include "Simulation.h"
 #include "Coalition.h"
 
-Party::Party(int id, string name, int mandates, JoinPolicy *jp) : mId(id), mName(name), mMandates(mandates), mJoinPolicy(jp), mState(Waiting), timer(0)
+Party::Party(int id, string name, int mandates, JoinPolicy *jp) : mId(id), mName(name), mMandates(mandates), mJoinPolicy(jp), mState(Waiting), timer(0), offers(0)
 {
     // You can change the implementation of the constructor, but not the signature!
     //maybe we need to initate offers
-}
-
-//  Party::Party( Party &aparty) : mId(aparty.mId), mName(aparty.mName), mMandates(), mJoinPolicy(jp), mState(Waiting) 
-// {
+}    
+Party::Party()
+{
     
-
-// } 
+}
+//copy constructor
  Party:: Party(const Party &aparty)
  { 
     mId= aparty.mId;
@@ -97,15 +96,14 @@ const string & Party::getName() const
 
 void Party::step(Simulation &s)
 {   
-    if (getState()==CollectingOffers)
-    {
+    if (getState()==CollectingOffers) {
         timer++;
-        if(timer==3)
-        {
-        Coalition c= (*mJoinPolicy).join(offers);
-        c.addMandates(mMandates);
-        s.cloneAgent(mId,c.getId(),c.getSelectionPolicy());
-        setState(Joined);
+        if(timer==3){ //join some coalition
+            Coalition &c =(*mJoinPolicy).join(offers);
+            c.addMandates(mMandates);
+            Agent a = s.getAgents()[c.getId()]; //we only need information from this agent, we dont use it or change it otherwise
+            s.cloneAgent(mId,a);
+            setState(Joined);
         }
     }
 

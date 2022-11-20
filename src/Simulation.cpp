@@ -3,32 +3,19 @@
 Simulation::Simulation(Graph graph, vector<Agent> agents) : mGraph(graph), mAgents(agents) 
 {
     // You can change the implementation of the constructor, but not the signature!
-     for (int i=0; i<mAgents.size();i++)
-    {
-        Agent aCurrent= mAgents[i];
-        Coalition currCoalition= Coalition(i,graph.getMandates(aCurrent.getPartyId()),aCurrent.getSelectionPolicy());
+    for (int i=0; i<mAgents.size();i++){
+        Agent &aCurrent= mAgents[i];
+        Coalition currCoalition= Coalition(i,graph.getMandates(aCurrent.getPartyId()));
         mCoalition.push_back(currCoalition);
     }
 }
 
 void Simulation::step()
 {
-    // TODO: implement this method
     for (int i=0; i<mGraph.getNumVertices();i++)
-    {
-   
-        Party pCurrent= this->getParty(i);
-        pCurrent.step(*this);
-
-    }
-    for (int i=0; i<mAgents.size();i++)
-    {
-   
-        Agent aCurrent= mAgents[i];
-        aCurrent.step(*this);
-
-    }
-
+        mGraph.getParty(i).step(*this);
+    for (int i=0; i<mAgents.size();i++) 
+        mAgents[i].step(*this);
 }
 
 bool Simulation::shouldTerminate() const
@@ -37,12 +24,12 @@ bool Simulation::shouldTerminate() const
     return true;
 }
 
-void Simulation::cloneAgent(int partyId, int coalitionId,  SelectionPolicy *selectionPolicy )
-{ int agentId=mAgents.size();
-    Agent cAgent= Agent(agentId,partyId,selectionPolicy,coalitionId);
+void Simulation::cloneAgent(int partyId,  Agent &a ){
+    int agentId = mAgents.size();
+    Agent cAgent = Agent(mAgents.size(),partyId,a.getSelectionPolicy(),a.getId());
     mAgents.push_back(cAgent);
 }
-const Coalition &Simulation::getCoalition(int cId) const
+ Coalition &Simulation::getCoalition(int cId) 
 {
     
     return mCoalition[cId];

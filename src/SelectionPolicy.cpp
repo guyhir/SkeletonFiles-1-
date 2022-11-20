@@ -5,11 +5,11 @@
 
 MandatesSelectionPolicy::MandatesSelectionPolicy() {}
 
-Party MandatesSelectionPolicy::select(vector<Party> partyOptions, Graph mGraph,int PartyId)
+Party &MandatesSelectionPolicy::select(vector<Party> partyOptions, Graph mGraph,int PartyId)
 { 
     int max = 0;
-    Party temp = partyOptions[0];
-    for (Party p: partyOptions) {
+    Party &temp = partyOptions[0];
+    for (Party &p: partyOptions) {
         if (p.getMandates()>max) {
             max = p.getMandates();
             temp = p;
@@ -21,10 +21,10 @@ Party MandatesSelectionPolicy::select(vector<Party> partyOptions, Graph mGraph,i
 
 EdgeWeightSelectionPolicy::EdgeWeightSelectionPolicy() {}
 
-Party EdgeWeightSelectionPolicy::select(vector<Party> partyOptions, Graph mGraph,int PartyId)
+Party &EdgeWeightSelectionPolicy::select(vector<Party> partyOptions, Graph mGraph,int PartyId)
 {       int maxWeight = 0;
-      Party temp = partyOptions[0];
-    for (Party p: partyOptions)
+      Party &temp = partyOptions[0];
+    for (Party &p: partyOptions)
     { int tempEdgeWight=mGraph.getEdgeWeight(PartyId,p.getId());
         if (tempEdgeWight>maxWeight)
         {

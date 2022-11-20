@@ -17,13 +17,12 @@ public:
 
     void step();
     bool shouldTerminate() const;
-    const Coalition &getCoalition(int cId) const;
-    const Graph &getGraph() const;
+    Coalition &getCoalition(int cId) ;
     const vector<Agent> &getAgents() const;
     const Party &getParty(int partyId) const;
     const vector<vector<int>> getPartiesByCoalitions() const;
     const Graph &getGraph() const;
-    void cloneAgent(int partyId, int coalitionID,  SelectionPolicy *selectionPolicy );
+    void cloneAgent(int partyId, Agent &a );
     
 
 private:

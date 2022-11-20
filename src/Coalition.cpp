@@ -2,10 +2,14 @@
 #include "../include/Agent.h"
 #include "../include/SelectionPolicy.h"
 
- Coalition:: Coalition(int id, int mandates, SelectionPolicy *selectionPolicy): cId(id), cMandates(mandates), sp(selectionPolicy)
+ Coalition:: Coalition(int id, int mandates): cId(id), cMandates(mandates)
  {
    //add null vector to alreadyOffered 
  }
+  Coalition:: Coalition()
+  {
+    
+  }
     int Coalition::getMandates() const
     {
         return cMandates;
@@ -22,10 +26,7 @@
      {
         alreadyOffered.push_back(partyId);
      }
-     SelectionPolicy *Coalition::getSelectionPolicy() 
-     {
-        return sp;
-     }
+     
          bool Coalition:: isOfferedAlready(int partyId)
          { 
             for (int i=0; i<alreadyOffered.size();i++)
