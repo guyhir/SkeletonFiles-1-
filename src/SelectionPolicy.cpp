@@ -7,14 +7,14 @@
 MandatesSelectionPolicy::MandatesSelectionPolicy() {}
 
  
-Party *MandatesSelectionPolicy::select(vector<Party*> partyOptions, Graph mGraph,int PartyId)
+Party *MandatesSelectionPolicy::select(vector<int> partyOptions, Graph mGraph,int PartyId)
 { 
     int max = 0;
-    Party *temp = partyOptions[0];
-    for (Party *p: partyOptions) {
-        if (p->getMandates()>max) {
-            max = p->getMandates();
-            temp = p;
+    Party *temp = &(mGraph.getParty(partyOptions[0]));
+    for (int i: partyOptions) {
+        if (mGraph.getParty(i).getMandates()>max) {
+            max = mGraph.getParty(i).getMandates();
+            temp = &(mGraph.getParty(i));
         //we need to make a equal sign operator constructor to Party class
         }
     }
@@ -26,14 +26,15 @@ MandatesSelectionPolicy* MandatesSelectionPolicy::clone()
 }
 EdgeWeightSelectionPolicy::EdgeWeightSelectionPolicy() {}
 
-Party *EdgeWeightSelectionPolicy::select(vector<Party*> partyOptions, Graph mGraph,int PartyId)
-{       int maxWeight = 0;
-      Party *temp = partyOptions[0];
-    for (Party *p: partyOptions)
-    { int tempEdgeWight=mGraph.getEdgeWeight(PartyId,p->getId());
+Party *EdgeWeightSelectionPolicy::select(vector<int> partyOptions, Graph mGraph,int PartyId)
+{       
+    int maxWeight = 0;
+    Party *temp = &(mGraph.getParty(partyOptions[0]));
+    for (int i: partyOptions)
+    {             int tempEdgeWight=mGraph.getEdgeWeight(PartyId,i);
         if (tempEdgeWight>maxWeight)
         {
-            temp = p;
+            temp = &(mGraph.getParty(i));                
             maxWeight=tempEdgeWight;
         }
         
