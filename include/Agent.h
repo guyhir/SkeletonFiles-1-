@@ -27,7 +27,7 @@ private:
     int mPartyId;
     SelectionPolicy *mSelectionPolicy;
     int mCoalitionId;
-    vector<Party> partyOptions;
+    vector<Party*> partyOptions;
     bool isActive;
     void updateOptions(Simulation &sim);
 };

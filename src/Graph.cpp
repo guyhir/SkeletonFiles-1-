@@ -31,11 +31,12 @@ Party &Graph::getParty(int partyId)
     return mVertices[partyId];
 }
 
-const vector<Party> Graph::getNeighborsOf(int partyId){
-    vector<Party> neighbors;
+const vector<Party*> Graph::getNeighborsOf(int partyId)
+{ 
+    vector<Party*> neighbors;
     for (int i: mEdges[partyId]){
         if (getEdgeWeight(partyId,i)>0)
-            neighbors.push_back(getParty(i));
+            neighbors.push_back(&(getParty(i)));
     }
     return neighbors;
 }

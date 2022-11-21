@@ -1,7 +1,7 @@
 #include "../include/JoinPolicy.h"
 #include "../include/Agent.h"
 #include "../include/Coalition.h"
-
+JoinPolicy::JoinPolicy(){}
 MandatesJoinPolicy::MandatesJoinPolicy() {}
 
 Coalition &MandatesJoinPolicy::join(vector<Coalition*> &coalitionOffers){ 
@@ -16,6 +16,11 @@ Coalition &MandatesJoinPolicy::join(vector<Coalition*> &coalitionOffers){
     return *currentBestCoalition;
 }
 
+MandatesJoinPolicy* MandatesJoinPolicy::clone()
+{
+    return  new MandatesJoinPolicy();
+}
+
 LastOfferJoinPolicy::LastOfferJoinPolicy() {}
 
 Coalition &LastOfferJoinPolicy::join(vector<Coalition*> &coalitionOffers)
@@ -23,4 +28,8 @@ Coalition &LastOfferJoinPolicy::join(vector<Coalition*> &coalitionOffers)
     return *(coalitionOffers.back());
 }
 
+LastOfferJoinPolicy* LastOfferJoinPolicy::clone()
+{
+    return  new LastOfferJoinPolicy();
+}
 

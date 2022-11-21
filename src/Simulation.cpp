@@ -27,13 +27,11 @@ bool Simulation::shouldTerminate() const
     for(int i=0; i<mCoalition.size();i++)
     {
         if (mCoalition[i].getMandates()>60) return true;
-
     }
     for (int i=0; i<mGraph.getNumVertices();i++)
-
-    { //we need to refer to lonely parties
+    { 
         if(mGraph.getParty(i).getState()!=Joined)
-        return false;
+            return false;
     }
     return true;
 }

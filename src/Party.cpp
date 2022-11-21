@@ -15,17 +15,18 @@ Party::Party()
 }
 
 //copy constructor
- Party:: Party(const Party &other) : mId(other.mId),mName(other.mName),mMandates(other.mMandates),mState(other.mState),
+ Party:: Party(const Party &other) : mId(other.mId),mName(other.mName),mMandates(other.mMandates),mJoinPolicy(0),mState(other.mState),
 timer(other.timer),offers(other.offers)
  { 
-    mJoinPolicy=new JoinPolicy(*(other.mJoinPolicy));
-
+    
+mJoinPolicy=(other.mJoinPolicy)->clone();
  }
 
 //destructor
 Party::~Party() //maybe we need to add virtual
 {
     if (mJoinPolicy) delete mJoinPolicy;
+    mJoinPolicy = nullptr;
 }
 
 //assignment operator
