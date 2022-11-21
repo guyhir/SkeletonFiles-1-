@@ -4,7 +4,7 @@
 #include "Simulation.h"
 #include "Coalition.h"
 
-Party::Party(int id, string name, int mandates, JoinPolicy *jp) : mId(id), mName(name), mMandates(mandates), mJoinPolicy(jp), mState(Waiting), timer(0), offers(0)
+Party::Party(int id, string name, int mandates, JoinPolicy *jp) : mId(id), mName(name), mMandates(mandates), mJoinPolicy(jp), mState(Waiting), timer{}, offers{}
 {
     // You can change the implementation of the constructor, but not the signature!
     //maybe we need to initate offers

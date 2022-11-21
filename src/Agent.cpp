@@ -100,7 +100,7 @@ void Agent::step(Simulation &sim)
         Party *p = mSelectionPolicy->select(partyOptions,sim.getGraph(),mPartyId);
         //d - is it ok that we send a refrence when the function expect a graph value
         //d - does p needs to be a refrence
-        Coalition c = sim.getCoalition(mCoalitionId);
+        Coalition &c = sim.getCoalition(mCoalitionId);
         c.addOfferedParties(p->getId());
         //d- do we need to push pointers to the vector?
         p->setState(CollectingOffers);

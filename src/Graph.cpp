@@ -31,10 +31,10 @@ const Party &Graph::getParty(int partyId) const
     return mVertices[partyId];
 }
 
-const vector<Party*> Graph::getNeighborsOf(int partyId) 
+ vector<Party*>& Graph::getNeighborsOf(int partyId) 
 { 
     vector<Party*> neighbors;
-    for (int i: mEdges[partyId]){
+    for (int i=0;i<getNumVertices();i++){
         if (getEdgeWeight(partyId,i)>0)
             neighbors.push_back(&(getParty(i)));
     }

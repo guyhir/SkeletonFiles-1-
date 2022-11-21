@@ -14,7 +14,7 @@ public:
     const Party &getParty(int partyId) const;
     Party &getParty(int partyId) ;
     //we coudnlt use the const method
-    const vector<Party*> getNeighborsOf(int partyId) ;
+     vector<Party*> &getNeighborsOf(int partyId) ;
 
 private:
     vector<Party> mVertices;
