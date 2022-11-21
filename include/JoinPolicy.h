@@ -20,7 +20,7 @@ class MandatesJoinPolicy : public JoinPolicy
 {
     public:
     MandatesJoinPolicy();
-         MandatesJoinPolicy* clone();
+         MandatesJoinPolicy* clone() override;
         Coalition &join(vector<Coalition*> &coalitionOffers);
           virtual ~MandatesJoinPolicy()=default;
 };
@@ -29,7 +29,7 @@ class LastOfferJoinPolicy : public JoinPolicy
  { 
      public:
      LastOfferJoinPolicy();
-      LastOfferJoinPolicy* clone();
+      LastOfferJoinPolicy* clone() override;
              Coalition &join(vector<Coalition*> &coalitionOffers);
                virtual ~LastOfferJoinPolicy()=default;
 

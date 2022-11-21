@@ -26,12 +26,12 @@ const Party &Graph::getParty(int partyId) const
     return mVertices[partyId];
 }
 
-Party &Graph::getParty(int partyId)
+ Party &Graph::getParty(int partyId) 
 {
     return mVertices[partyId];
 }
 
-const vector<Party*> Graph::getNeighborsOf(int partyId)
+const vector<Party*> Graph::getNeighborsOf(int partyId) 
 { 
     vector<Party*> neighbors;
     for (int i: mEdges[partyId]){

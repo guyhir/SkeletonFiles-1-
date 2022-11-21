@@ -1,15 +1,15 @@
 #include "Simulation.h"
 
-Simulation::Simulation(Graph graph, vector<Agent> agents) : mGraph(graph), mAgents(agents) 
+Simulation::Simulation(Graph graph, vector<Agent> agents) : mGraph(graph), mAgents(agents), mCoalition(0) 
 {
     // You can change the implementation of the constructor, but not the signature!
 
-    for (int i=0; i<mAgents.size();i++){
-       //daniel- is the assignent currect or making a copy?
-        Coalition currCoalition= Coalition(i,graph.getMandates(mAgents[i].getPartyId()));
+    for (Agent a : mAgents){
+       //d- is the assignent currect or making a copy?
+        Coalition currCoalition= Coalition(a.getId(),graph.getMandates(a.getPartyId()));
         mCoalition.push_back(currCoalition);
-        //daniel- do we need to keep it in the stack or on the heap
-        //daniel -if we keep objects in the stack, does it gets deleted whrn the functions ends???
+        //d- do we need to keep it in the stack or on the heap
+        //d -if we keep objects in the stack, does it gets deleted whrn the functions ends???
     }
 }
 
@@ -17,16 +17,16 @@ void Simulation::step()
 {
     for (int i=0; i<mGraph.getNumVertices();i++)
         mGraph.getParty(i).step(*this);
-    for (int i=0; i<mAgents.size();i++) 
-        mAgents[i].step(*this);
+     for (Agent a : mAgents)
+       a.step(*this);
 }
 
 bool Simulation::shouldTerminate() const
 {
     // TODO implement this method
-    for(int i=0; i<mCoalition.size();i++)
+    for(Coalition c : mCoalition)
     {
-        if (mCoalition[i].getMandates()>60) return true;
+        if (c.getMandates()>60) return true;
     }
     for (int i=0; i<mGraph.getNumVertices();i++)
     { 
@@ -37,7 +37,7 @@ bool Simulation::shouldTerminate() const
 }
 
 void Simulation::cloneAgent(int partyId,  Agent &a ){
-    int agentId = mAgents.size();
+   
     Agent cAgent = Agent(mAgents.size(),partyId,a.getSelectionPolicy(),a.getId());
     mAgents.push_back(cAgent);
 }
@@ -59,6 +59,11 @@ const vector<Agent> &Simulation::getAgents() const
 const Party &Simulation::getParty(int partyId) const
 {
     return mGraph.getParty(partyId);
+}
+
+ Graph &Simulation::getGraph() 
+{
+    return mGraph;
 }
 
 /// This method returns a "coalition" vector, where each element is a vector of party IDs in the coalition.

@@ -10,16 +10,17 @@ Party::Party(int id, string name, int mandates, JoinPolicy *jp) : mId(id), mName
     //maybe we need to initate offers
 }    
 
-Party::Party()
+ Party::Party()  : mId{}, mName{}, mMandates{}, mJoinPolicy{}, mState(Waiting), timer{}, offers{}
 {
-}
+
+ }
 
 //copy constructor
- Party:: Party(const Party &other) : mId(other.mId),mName(other.mName),mMandates(other.mMandates),mJoinPolicy(0),mState(other.mState),
+ Party:: Party(const Party &other) : mId(other.mId),mName(other.mName),mMandates(other.mMandates),mJoinPolicy((other.mJoinPolicy)->clone()),mState(other.mState),
 timer(other.timer),offers(other.offers)
  { 
     
-mJoinPolicy=(other.mJoinPolicy)->clone();
+//mJoinPolicy=(other.mJoinPolicy)->clone();
  }
 
 //destructor
@@ -99,7 +100,7 @@ void Party::step(Simulation &s)
             Coalition &c =(*mJoinPolicy).join(offers);
             c.addMandates(mMandates);
             Agent a = s.getAgents()[c.getId()]; //we only need information from this agent, we dont use it or change it otherwise
-           //daniel- is it ok to only take a copy of agent a? beacue getAgents() is Const
+           //d- is it ok to only take a copy of agent a? beacue getAgents() is Const
             s.cloneAgent(mId,a);
             setState(Joined);
         }

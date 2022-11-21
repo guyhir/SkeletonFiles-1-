@@ -19,7 +19,7 @@ enum State
 class Party
 {
 public:
-    Party();
+   Party();
     Party(int id, string name, int mandates, JoinPolicy *); 
     Party(const Party &aparty);
     Party( Party &&aparty);

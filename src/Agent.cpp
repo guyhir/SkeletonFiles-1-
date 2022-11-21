@@ -3,29 +3,30 @@
 #include "Simulation.h"
 #include "Party.h"
 #include "SelectionPolicy.h"
-Agent::Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy) : mAgentId(agentId), mPartyId(partyId), mSelectionPolicy(selectionPolicy), mCoalitionId(agentId), isActive(true)
+Agent::Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy) : mAgentId(agentId), mPartyId(partyId), mSelectionPolicy(selectionPolicy), mCoalitionId(agentId),  partyOptions{},isActive(true)
 {
     // You can change the implementation of the constructor, but not the signature!
     
     //daniel- how do we initialize partyOptions (vector <Party>) when its supooesed to be empty in the beginning?
 }
 
-Agent::Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy, int mCoalitionId): mAgentId(agentId), mPartyId(partyId), mSelectionPolicy(selectionPolicy), mCoalitionId(mCoalitionId), isActive(true)
+Agent::Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy, int mCoalitionId): mAgentId(agentId), mPartyId(partyId), mSelectionPolicy(selectionPolicy), mCoalitionId(mCoalitionId),  partyOptions{},isActive(true)
 { 
 }
 
 Agent::~Agent() //maybe we need to add virtual
 {
     if (mSelectionPolicy) delete mSelectionPolicy;
+    mSelectionPolicy = nullptr;
 
 }
 
 //copy constructor
-Agent::Agent(const Agent &other) : mAgentId(other.mAgentId), mPartyId(other.mPartyId), mSelectionPolicy(0) ,mCoalitionId( other.mCoalitionId),partyOptions(other.partyOptions), isActive(other.isActive)
+Agent::Agent(const Agent &other) : mAgentId(other.mAgentId), mPartyId(other.mPartyId), mSelectionPolicy ((other.mSelectionPolicy)->clone()) ,mCoalitionId( other.mCoalitionId),partyOptions(other.partyOptions), isActive(other.isActive)
 
 {
 
-     mSelectionPolicy= (other.mSelectionPolicy)->clone();
+    
   
 }
 
@@ -48,7 +49,9 @@ Agent::Agent(Agent &&other) : mAgentId( other.mAgentId), mPartyId(other.mPartyId
     mCoalitionId= other.mCoalitionId; 
     isActive= other.isActive;
     partyOptions= other.partyOptions;
+    
     }
+    return *this;
  }
 
 
@@ -84,22 +87,22 @@ SelectionPolicy *Agent::getSelectionPolicy()
 void Agent::step(Simulation &sim)
 {
     if (isActive&(partyOptions.size()==0)) { 
-        const Graph &g =sim.getGraph();
-        //daniel- how can we keep a refrence object in a value object. 
-        // daniel-is the getGraph need to return a refrence.
-        partyOptions = sim.getGraph().getNeighborsOf(mPartyId);
-        //Daniel told us to do a vector of pointers
-        //daniel- we dont know how to save the parties in party options and in GetNeigbours()
+       // const Graph &g =sim.getGraph();
+        //d- how can we keep a refrence object in a value object. 
+        // d-is the getGraph need to return a refrence.
+        partyOptions = (sim.getGraph()).getNeighborsOf(mPartyId);
+        //D told us to do a vector of pointers
+        //d- we dont know how to save the parties in party options and in GetNeigbours()
     }
     if (isActive)
         updateOptions(sim);
     if (isActive) {
         Party *p = mSelectionPolicy->select(partyOptions,sim.getGraph(),mPartyId);
-        //daniel - is it ok that we send a refrence when the function expect a graph value
-        //daniel - does p needs to be a refrence
+        //d - is it ok that we send a refrence when the function expect a graph value
+        //d - does p needs to be a refrence
         Coalition c = sim.getCoalition(mCoalitionId);
         c.addOfferedParties(p->getId());
-        //daniel- do we need to push pointers to the vector?
+        //d- do we need to push pointers to the vector?
         p->setState(CollectingOffers);
         p->AddOffer(c);
     }
@@ -109,14 +112,17 @@ void Agent::step(Simulation &sim)
 
 void Agent::updateOptions(Simulation &sim)
 {    Coalition &currCoalition=sim.getCoalition(mCoalitionId);
-    //daniel- do we need to keep it as refrence?
-    for (int i=0;i<partyOptions.size();i++)
+    //d- do we need to keep it as refrence?
+    int i=0;
+    for(Party* p : partyOptions)
     {
-        if (partyOptions[i]->getState()==Joined)
+        if (p->getState()==Joined)
              partyOptions.erase(partyOptions.begin()+i);
-             //daniel- is the erase function forrect here?
+             //d- is the erase function forrect here?
         if(currCoalition.isOfferedAlready(partyOptions[i]->getId()))
             partyOptions.erase(partyOptions.begin()+i);
+    
+    i++;
     }
     partyOptions.shrink_to_fit();
     if (partyOptions.size()==0)

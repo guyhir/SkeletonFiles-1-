@@ -22,6 +22,8 @@ public:
     const Party &getParty(int partyId) const;
     const vector<vector<int>> getPartiesByCoalitions() const;
     const Graph &getGraph() const;
+     Graph &getGraph() ;
+     //we coudnlt use the const method
     void cloneAgent(int partyId, Agent &a );
 
     //daniel- when do we need to return a refrence in a function
