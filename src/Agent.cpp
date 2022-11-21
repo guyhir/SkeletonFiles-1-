@@ -10,7 +10,7 @@ Agent::Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy) : mAgen
     //daniel- how do we initialize partyOptions (vector <Party>) when its supooesed to be empty in the beginning?
 }
 
-Agent::Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy, int mCoalitionId): mAgentId(agentId), mPartyId(partyId), mSelectionPolicy(selectionPolicy), mCoalitionId(mCoalitionId),  partyOptions{},isActive(true)
+Agent::Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy, int mCoalitionId): mAgentId(agentId), mPartyId(partyId), mSelectionPolicy(selectionPolicy), mCoalitionId(mCoalitionId), partyOptions{}, isActive(true)
 { 
 }
 
@@ -112,19 +112,19 @@ void Agent::step(Simulation &sim)
 
 void Agent::updateOptions(Simulation &sim)
 {    Coalition &currCoalition=sim.getCoalition(mCoalitionId);
+int j=0;
     //d- do we need to keep it as refrence?
-    int i=0;
-    for(Party* p : partyOptions)
+    for(int partyId: partyOptions)
     {
-        if (p->getState()==Joined)
-             partyOptions.erase(partyOptions.begin()+i);
+        if (sim.getGraph().getParty(partyId).getState()==Joined)
+             partyOptions.erase(partyOptions.begin()+j);
              //d- is the erase function forrect here?
-        if(currCoalition.isOfferedAlready(partyOptions[i]->getId()))
-            partyOptions.erase(partyOptions.begin()+i);
+        if(currCoalition.isOfferedAlready(partyId))
+            partyOptions.erase(partyOptions.begin()+j);
     
-    i++;
+   j++;
     }
-    partyOptions.shrink_to_fit();
+   
     if (partyOptions.size()==0)
         isActive=false;
 }
