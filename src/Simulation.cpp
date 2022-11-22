@@ -1,5 +1,6 @@
 #include "Simulation.h"
 
+
 Simulation::Simulation(Graph graph, vector<Agent> agents) : mGraph(graph), mAgents(agents), mCoalition(0) 
 {
     // You can change the implementation of the constructor, but not the signature!
@@ -14,11 +15,16 @@ Simulation::Simulation(Graph graph, vector<Agent> agents) : mGraph(graph), mAgen
 }
 
 void Simulation::step()
-{
+{ 
     for (int i=0; i<mGraph.getNumVertices();i++)
-        mGraph.getParty(i).step(*this);
-     for (Agent a : mAgents)
+    {
+      Party &p=  mGraph.getParty(i);
+      p.step(*this);
+    }
+     for (Agent& a : mAgents) {
+
        a.step(*this);
+     }
 }
 
 bool Simulation::shouldTerminate() const

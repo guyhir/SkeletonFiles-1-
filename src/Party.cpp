@@ -97,9 +97,9 @@ void Party::step(Simulation &s)
     if (getState()==CollectingOffers) {
         timer++;
         if(timer==3){ //join some coalition
-            Coalition &c =(*mJoinPolicy).join(offers);
-            c.addMandates(mMandates);
-            Agent a = s.getAgents()[c.getId()]; //we only need information from this agent, we dont use it or change it otherwise
+          int coalitionId =(*mJoinPolicy).join(offers,s);
+            s.getCoalition(coalitionId).addMandates(mMandates);
+            Agent a = s.getAgents()[coalitionId]; //we only need information from this agent, we dont use it or change it otherwise
            //d- is it ok to only take a copy of agent a? beacue getAgents() is Const
             s.cloneAgent(mId,a);
             setState(Joined);
@@ -108,9 +108,9 @@ void Party::step(Simulation &s)
 
 }
 
-void Party:: AddOffer(Coalition &c)
+void Party:: AddOffer(int coalitionId)
 {
-offers.push_back(&c);
+offers.push_back(coalitionId);
 
 }
 

@@ -1,19 +1,23 @@
 #include "../include/JoinPolicy.h"
 #include "../include/Agent.h"
 #include "../include/Coalition.h"
+#include "../include/Simulation.h"
 JoinPolicy::JoinPolicy(){}
 MandatesJoinPolicy::MandatesJoinPolicy() {}
 
-Coalition &MandatesJoinPolicy::join(vector<Coalition*> &coalitionOffers){ 
+int MandatesJoinPolicy::join(vector<int> coalitionOffers,Simulation &sim){ 
     int maxMandates=0;
-    Coalition *currentBestCoalition=coalitionOffers[0];
-    for (Coalition *c : coalitionOffers){
-        if (c->getMandates()>maxMandates){
-            maxMandates=c->getMandates();
-            currentBestCoalition=c;
+     int currentBestCoalitionId;
+    //Coalition &currentBestCoalition=sim.getCoalition(0);
+    for (int coalitionId : coalitionOffers){
+        int tempMandates=sim.getCoalition(coalitionId).getMandates();
+        if (tempMandates>maxMandates)
+        {
+            maxMandates=tempMandates;
+            currentBestCoalitionId=coalitionId;
             }//we need to make a equal sign operator constructor to Coalition class
     }
-    return *currentBestCoalition;
+    return currentBestCoalitionId;
 }
 
 MandatesJoinPolicy* MandatesJoinPolicy::clone()
@@ -23,9 +27,9 @@ MandatesJoinPolicy* MandatesJoinPolicy::clone()
 
 LastOfferJoinPolicy::LastOfferJoinPolicy() {}
 
-Coalition &LastOfferJoinPolicy::join(vector<Coalition*> &coalitionOffers)
+int LastOfferJoinPolicy::join(vector<int> coalitionOffers,Simulation &sim)
 {       
-    return *(coalitionOffers.back());
+    return coalitionOffers.back();
 }
 
 LastOfferJoinPolicy* LastOfferJoinPolicy::clone()
