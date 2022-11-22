@@ -44,8 +44,8 @@ bool Simulation::shouldTerminate() const
 
 void Simulation::cloneAgent(int partyId,  Agent &a ){
    
-    Agent cAgent = Agent(mAgents.size(),partyId,a.getSelectionPolicy(),a.getId());
-    mAgents.push_back(cAgent);
+    
+    mAgents.push_back(Agent(mAgents.size(),partyId,a));
 }
  Coalition &Simulation::getCoalition(int cId) 
 {
@@ -75,7 +75,19 @@ const Party &Simulation::getParty(int partyId) const
 /// This method returns a "coalition" vector, where each element is a vector of party IDs in the coalition.
 /// At the simulation initialization - the result will be [[agent0.partyId], [agent1.partyId], ...]
 const vector<vector<int>> Simulation::getPartiesByCoalitions() const
-{
+{   
+    vector<vector<int>> output;
+    for (Coalition c : mCoalition)
+        {
+            vector <int> currentCoalition;
+            for (Agent a: mAgents)
+            {
+                if( a.getCoalitionId()==c.getId())
+                currentCoalition.push_back(a.getPartyId());
+            }
+            output.push_back(currentCoalition);
+        }
+return output;
     // TODO: you MUST implement this method for getting proper output, read the documentation above.
-    return vector<vector<int>>();
+   
 }

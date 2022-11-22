@@ -10,7 +10,7 @@ class Agent
 {
 public:
     Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy);
-    Agent(int agentId, int partyId, SelectionPolicy *selectionPolicy, int myCoalitionId);
+    Agent(int agentId, int partyId, Agent& other);
     Agent(const Agent &other);
     Agent(Agent &&other);
     Agent& operator= (const Agent& other);
@@ -20,6 +20,7 @@ public:
     void step(Simulation &);
     SelectionPolicy *getSelectionPolicy();
     Agent& operator=(Agent &&other);
+    int getCoalitionId() const;
 
 
 private:

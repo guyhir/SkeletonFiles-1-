@@ -41,7 +41,7 @@ private:
     JoinPolicy *mJoinPolicy;
     State mState;
     int timer;
-    vector<int> offers; //coalitions ID
+    vector<int> offers; //coalitions IDs
     //daniel - does coalition here needs to be refrecne or pointer or object? 
     //daniel- when we makes it refrence it give us alot of errors!
 };
